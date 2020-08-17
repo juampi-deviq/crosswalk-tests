@@ -1,0 +1,23 @@
+{
+  "reporter": "cypress-multi-reporters",
+  "reporterOptions": {
+    "configFile": "reporter.json"
+  },
+  "viewportWidth": 1500,
+  "viewportHeight": 900,
+  "watchForFileChanges": false,
+  "integrationFolder": "cypress/integration/",
+  "chromeWebSecurity": false,
+  "defaultCommandTimeout": 50000,
+  "requestTimeout": 60000,
+  "projectId": "6pf1ix",
+  "testFiles": [
+    "**/*spec.js",
+    "**.feature"
+  ],
+  "env": {
+    "subscription_key": "410ebf3124dc40d29627ba232dfd76ac",
+    "url_dev": "https://csi-crosswalk-dev.azurewebsites.net",
+    "url_prod": "https://api.crosswalk.digital/v2.1"
+  }
+}

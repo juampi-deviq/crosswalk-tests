@@ -1,0 +1,31 @@
+{
+  "name": "cypress",
+  "version": "0.0.1",
+  "description": "Crosswalk Cypress Tests",
+  "author": "DevIQ",
+  "scripts": {
+    "cy:run": "cypress run",
+    "cy:run-record": "node_modules\\.bin\\cypress run --record --key b36d6c3a-f9fb-444f-a085-615c35dc9891",
+    "cy:open": "cypress open",
+    "cy:spec": "cypress run --spec ",
+    "mochawesome-cleanup": "rm -fr cypress/reports/mochawesome",
+    "mochawesome-merge": "mochawesome-merge --reportDir cypress/reports/mochawesome > cypress/reports/mochawesome/output.json",
+    "mochawesome-report-generator": "marge cypress/reports/mochawesome/output.json",
+    "mochawesome-tests": "npm run mochawesome-cleanup; cypress run; npm run mochawesome-merge; npm run mochawesome-report-generator"
+  },
+  "devDependencies": {
+    "cypress": "^4.11.0",
+    "cypress-cucumber-preprocessor": "^2.5.4",
+    "cypress-multi-reporters": "^1.4.0",
+    "cypress-slack-reporter": "^0.9.0",
+    "cypress-terminal-report": "^1.4.1",
+    "cypress-localstorage-commands": "^1.2.1",
+    "mocha": "^6.2.2",
+    "mochawesome": "^4.1.0",
+    "mochawesome-merge": "^2.1.0",
+    "mochawesome-report-generator": "^4.1.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
+  }
+}
