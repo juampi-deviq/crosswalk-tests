@@ -21,7 +21,7 @@ steps:
 - script: "npm run cy:verify"
   displayName: "Cypress Verify"
 
-- script: "npm run cy:run-reporter"
+- script: "npm run cy:run-report"
   displayName: "Run Cypress Tests" 
 
 - task: PublishBuildArtifacts@1
