@@ -1,46 +1,61 @@
 after(()=>{
     cy.clearLocalStorage()
 })
-Given('A query asking for other versions of a standard', ()=> {
+Given('A query asking for other versions of a {string} standard', (standard)=> {
     const query = `{
-            standards(id: "MasterFormat") {
-              otherversions{id}
-              classifications {
-                   id
-                   versionid
-                   publishdate
-                   number
-                   title
-                   alternatetermsabbreviations
-                   includes
-                   mayinclude
-                   doesnotinclude
-                   notes
-                   products
-                   level4numberingrecommendation
-                   tableref
-                   synonyms
-                   discussion
-                   definitions
-                   description
-                   hasparents
-                   haschildren
-                   children{
-                    number
-                    children{hasparents}
-                   }
-                   otherversions{
+        standards(id: "${standard}", version: null) {
+            classifications(number: "46 00 00") {
+                id
+                versionid
+                publishdate
+                number
+                title
+                includes
+                mayinclude
+                doesnotinclude
+                notes
+                tableref
+                synonyms
+                discussion
+                hasparents
+                haschildren
+                otherversions {
+                    id
+                    versionid
+                    publishdate
                     number
                     title
-                    children{number}
-                   }
-              }
-         }
-        }`;
+                    includes
+                    mayinclude
+                    doesnotinclude
+                    notes
+                    tableref
+                    synonyms
+                    discussion
+                    standards {
+                        id
+                        name
+                        description
+                        versionid
+                        publishdate
+                        name
+                        definition
+                        version
+                        number
+                        abstract
+                        status
+                    }
+                }
+            }
+        }
+    }`;
 })
 When('I send the request',()=>{
 
 })
-Then('I get data for other existing versions of the standard',()=>{
+And('I compare the results with the results querying individually for each version',()=>{
+
+})
+Then('I get the same data for other existing versions of the standard',()=>{
 
 })
