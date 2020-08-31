@@ -1,0 +1,39 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '12.x'
+  displayName: 'Install Node.js'
+
+- script: "npm i"
+  displayName: "Install project dependences"
+
+- script: "npm run cy:verify"
+  displayName: "Cypress Verify"
+
+- script: "npm run cy:run-reporter"
+  displayName: "Run Cypress Tests" 
+
+- task: PublishBuildArtifacts@1
+  displayName: "Publish Artifact: cypress-azure-devops screenshots"
+  inputs:
+    PathtoPublish: cypress/screenshots
+    ArtifactName: "CypressAzureDevopsTestRunScreenshots"
+  condition: failed()
+
+- task: PublishTestResults@2
+  displayName: "Publish Test Results"
+  condition: succededOrFailed()
+  inputs:
+    testResultsFormat: "JUnit"
+    testResultsFiles: "**/cypress-azure-devops-*.xml"
