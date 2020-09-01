@@ -10,7 +10,7 @@
   "integrationFolder": "cypress/integration/",
   "chromeWebSecurity": false,
   "defaultCommandTimeout": 50000,
-  "responseTimeout": 70000,
+  "responseTimeout": 150000,
   "requestTimeout": 60000,
   "projectId": "6pf1ix",
   "testFiles": [

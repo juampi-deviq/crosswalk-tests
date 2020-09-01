@@ -410,7 +410,8 @@ context('Testing REST responses for standards', ()=>{
                             cy.request({
                                 url: `${Cypress.config().baseUrl}/api/standards/${standard.name}/table/${table.number}/classifications/search/${category}`,
                                 headers: {'Authorization': key},
-                                tiemeout: 850000
+                                timeout: 850000,
+                                retryOnStatusCodeFailure: true
                             }).then((response)=>{
                                 expect(response.status).eq(200)
                                 expect(response).not.has.property('error')
@@ -431,7 +432,7 @@ context('Testing REST responses for standards', ()=>{
                     cy.request({
                         url: `${Cypress.config().baseUrl}/api/standards/${standard.name}/classifications/search/electrical`,
                         headers: {'Authorization': key},
-                        tiemeout: 850000
+                        timeout: 850000
                     }).then((response)=>{
                         expect(response.status).eq(200)
                         expect(response).not.has.property('error')
