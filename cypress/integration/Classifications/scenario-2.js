@@ -3,9 +3,9 @@ import 'cypress-localstorage-commands'
 after(()=>{
     cy.clearLocalStorage()
 })
-Given('A query for {string} without specific version', (standard)=> {
+Given('A query for {string}', (standard)=> {
     const query = `{
-        standards(id: "${standard}", table: "22"){
+        standards(id: "${standard}"){
             classifications{
                 id
                 versionid
@@ -42,7 +42,7 @@ When('I send the request',()=>{
         console.log(response)
         cy.setLocalStorage('GraphQL_response',JSON.stringify(response))})
 })
-Then('I get no errors on children property for classifications',()=>{
+Then('Then I get no errors on children property for classifications but a null children object',()=>{
     var response = JSON.parse(window.localStorage.getItem('GraphQL_response'))
     expect(response.status).to.eq(200)
     const classifications = response.body.data.standards[0].classifications

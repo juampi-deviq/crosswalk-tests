@@ -1,18 +1,19 @@
 Feature: Get parent and children classifications
 
+  @smoke
   #Scenario 1
 #  Scenario: Get the classifications grouped by children for MasterForm 2018
 #    Given A query for MasterForm 2018 with "08 00 00" classifications
 #    When I send the request
 #    Then I get all the available child classifications for "08 00 00"
-##
-###  #Scenario 2
-#  Scenario: Validate the server response when quering for non-existing child classifications
-#    Given A query for "OmniClass" without specific version
+
+#  #Scenario 2
+#  Scenario: Validate the server response when quering for non-existing children classifications
+#    Given A query for "UniFormat"
 #    When I send the request
-#    Then I get no errors on children property for classifications
+#    Then I get no errors on children property for classifications but a null children object
 #
-#  #Scenario
+#  #Scenario 3
 #  Scenario: Get the classifications grouped by children for MasterFormat latest version without any classification
 #    Given A query for "MasterFormat" standard without specific classifications and version
 #    When I send the request
@@ -41,7 +42,7 @@ Feature: Get parent and children classifications
 #    Then I get data from the latest version of the standard
 
   #Scenario 7
-  Scenario: Be able to get other versions of any standard using "otherversions" on query - compare results querying for each standard version individually
+  Scenario: Be able to get other versions of any standard using "otherversions" parameter on query - compare results querying for each standard version individually
     Given A query asking for other versions of a "MasterFormat" standard
     When I send the request
     And I compare the results with the results querying individually for each version

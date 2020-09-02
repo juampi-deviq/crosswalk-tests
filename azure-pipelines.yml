@@ -36,4 +36,8 @@ steps:
   condition: succeededOrFailed()
   inputs:
     testResultsFormat: "JUnit"
-    testResultsFiles: "**/cypress-azure-devops-*.xml"
+    #testResultsFiles: "**/cypress-azure-devops-*.xml"
+    testResultsFiles: "*.xml"
+    searchFolder: '$(System.DefaultWorkingDirectory)/cypress/reports'
+    mergeTestResults: true
+    testRunTitle: 'Test Results'
