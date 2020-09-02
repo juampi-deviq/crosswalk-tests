@@ -2,22 +2,22 @@ Feature: Get parent and children classifications
 
   @smoke
   #Scenario 1
-#  Scenario: Get the classifications grouped by children for MasterForm 2018
-#    Given A query for MasterForm 2018 with "08 00 00" classifications
-#    When I send the request
-#    Then I get all the available child classifications for "08 00 00"
+  Scenario: Get the classifications grouped by children for MasterForm 2018
+    Given A query for MasterForm 2018 with "08 00 00" classifications
+    When I send the request
+    Then I get all the available child classifications for "08 00 00"
 
 #  #Scenario 2
-#  Scenario: Validate the server response when quering for non-existing children classifications
-#    Given A query for "UniFormat"
-#    When I send the request
-#    Then I get no errors on children property for classifications but a null children object
+  Scenario: Validate the server response when quering for non-existing children classifications
+    Given A query for "UniFormat"
+    When I send the request
+    Then I get no errors on children property for classifications but a null children object
 #
 #  #Scenario 3
-#  Scenario: Get the classifications grouped by children for MasterFormat latest version without any classification
-#    Given A query for "MasterFormat" standard without specific classifications and version
-#    When I send the request
-#    Then I get all the available classifications and his child
+  Scenario: Get the classifications grouped by children for MasterFormat latest version without any classification
+    Given A query for "MasterFormat" standard without specific classifications and version
+    When I send the request
+    Then I get all the available classifications and his child
 ##  COMMENTS:
 ##   using a bad standard name I don't get any explicit advise (only get a null 'standard' object)
 ##   using just OmniClass in id I get an null object "classifications" (and an error object with message "Error trying to resolve classifications"). Its mandaroty to add table attribute on request?

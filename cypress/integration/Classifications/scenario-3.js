@@ -9,6 +9,7 @@ Given('A query for {string} standard without specific classifications and versio
             classifications{
                 id
                 publishdate
+                versionid
                 number
                 haschildren
                 children {
@@ -43,7 +44,7 @@ When('I send the rest request',()=>{
         method: 'POST',
         failOnStatusCode: false  // not a must but in case the fail code is not 200 / 400
     }).then((response)=>{
-        console.log(response)
+        expect(response.status).eq(200)
         cy.setLocalStorage('GraphQL_response',JSON.stringify(response))})
 })
 Then('I get all the available classifications and his child',()=>{
@@ -56,7 +57,6 @@ Then('I get all the available classifications and his child',()=>{
     expect(standards.classifications[0]).to.have.property("id").not.to.be.null
     expect(standards.classifications[0]).to.have.property("versionid").not.to.be.null
     expect(standards.classifications[0]).to.have.property("publishdate").not.to.be.null
-    expect(standards.classifications[0]).to.have.property("title").not.to.be.null
     const childrens = standards.classifications[0].children
     //expect(childrens).to.have.lengthOf(14)
 

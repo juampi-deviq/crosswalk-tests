@@ -1,4 +1,4 @@
-context('Testing GraphHL responses', ()=>{
+context('Testing GraphQL responses', ()=>{
     const key = Cypress.env('subscription_key')
 
     it('Validations on standards fields and his classifications (MasterFormat/UniFormat)',()=> {
@@ -120,7 +120,7 @@ context('Testing GraphHL responses', ()=>{
         })
     })
 
-    it.skip('If the user request for an OmniClass classification without providing a table then he gets an explicit error object inside the response',()=>{
+    it('If the user request for an OmniClass classification without providing a table then he gets an explicit error object inside the response',()=>{
         const standard = "OmniClass"
         const query = `{
             standards(id: "${standard}" ){
@@ -180,7 +180,7 @@ context('Testing GraphHL responses', ()=>{
         })
     })
 
-    it.only("User can get all the OmniClass classifications and children classifications by providing table attribute",()=>{
+    it("User can get all the OmniClass classifications and children classifications by providing table attribute",()=>{
         let query = `{
              standards{
                 id
@@ -215,7 +215,6 @@ context('Testing GraphHL responses', ()=>{
                 expect(table.id).not.to.be.null
                 expect(table.versionid).not.to.be.null
                 expect(table.publishdate).to.match(/20\d{2}(-|\/)((0[1-9])|(1[0-2]))(-|\/)((0[1-9])|([1-2][0-9])|(3[0-1]))(T|\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9]):([0-5][0-9])/)
-
                 //looping into the table to get all OmniClass classifications
                 query= `{
                     standards(id: "${omniclass_standard.name}", table: "${table.number}"){
@@ -271,17 +270,112 @@ context('Testing GraphHL responses', ()=>{
                 cy.request({
                     url: `${Cypress.config().baseUrl}/query`,
                     headers: {'Authorization': key},
-                    qs: {"code": 'NnzltFV95WnYMfea9vJX/QTrVAJaBzA9ExmCcspUnZeYIKDqbP9uwQ=='},
                     body: {query},
                     method: 'POST',
                     failOnStatusCode: false
                 }).then((response) => {
                     console.log(response)
-                    //expect(response.body.data.standards.classifications).not.to.be.empty
+                    expect(response.body.data.standards[0].classifications).not.to.be.empty
                 })
 
 
             })
+        })
+    })
+
+    it.skip("User can search for MasterFormat classifications that are into a category",()=>{
+        const category = "electric"
+        let query = `{
+          standards(id: "MasterFormat") {
+               classifications(search: "${category}") {
+                    id
+                    versionid
+                    publishdate
+                    number
+                    title
+                    includes
+                    mayinclude
+                    doesnotinclude
+                    notes
+                    tableref
+                    synonyms
+                    discussion
+                    hasparents
+                    haschildren
+                    children{
+                        id
+                        number
+                    }
+               }     
+          }
+        }`
+        cy.request({
+            url: `${Cypress.config().baseUrl}/query`,
+            headers: {'Authorization': key},
+            body: {query},
+            method: 'POST',
+            failOnStatusCode: false
+        }).then((response) => {
+            expect(response.status).eq(200)
+            expect(response).not.has.property('error')
+            const matches = response.body.data.standards[0].classifications
+            if (matches) {
+                matches.forEach(classification => {
+                    expect(classification).to.have.property('id').not.to.be.empty
+                    expect(classification).to.have.property('number').not.to.be.empty
+                    expect(classification).to.have.property('publishdate').to.match(/20\d{2}(-|\/)((0[1-9])|(1[0-2]))(-|\/)((0[1-9])|([1-2][0-9])|(3[0-1]))(T|\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9]):([0-5][0-9])/)
+                    expect(classification).to.have.property('versionid').not.to.be.empty
+                    expect(classification.title.toUpperCase()).contains(category.toUpperCase())
+                })
+            }
+        })
+    })
+
+    it.skip("User can search for UniForm classifications that are into a category",()=>{
+        const category = "glass"
+        let query = `{
+          standards(id: "UniFormat") {
+               classifications(search: "${category}") {
+                    id
+                    versionid
+                    publishdate
+                    number
+                    title
+                    includes
+                    mayinclude
+                    doesnotinclude
+                    notes
+                    tableref
+                    synonyms
+                    discussion
+                    hasparents
+                    haschildren
+                    children{
+                        id
+                        number
+                    }
+               }     
+          }
+        }`
+        cy.request({
+            url: `${Cypress.config().baseUrl}/query`,
+            headers: {'Authorization': key},
+            body: {query},
+            method: 'POST',
+            failOnStatusCode: false
+        }).then((response) => {
+            expect(response.status).eq(200)
+            expect(response).not.has.property('error')
+            const matches = response.body.data.standards[0].classifications
+            if (matches) {
+                matches.forEach(classification => {
+                    expect(classification).to.have.property('id').not.to.be.empty
+                    expect(classification).to.have.property('number')//.not.to.be.empty TODO: double-check if iits ok to have null numbers for uniformat
+                    expect(classification).to.have.property('publishdate').to.match(/20\d{2}(-|\/)((0[1-9])|(1[0-2]))(-|\/)((0[1-9])|([1-2][0-9])|(3[0-1]))(T|\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9]):([0-5][0-9])/)
+                    expect(classification).to.have.property('versionid').not.to.be.empty
+                    expect(classification.title.toUpperCase()).contains(category.toUpperCase())
+                })
+            }
         })
     })
 })
